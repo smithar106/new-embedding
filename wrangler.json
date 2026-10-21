@@ -8,7 +8,21 @@
 		"enabled": true
 	},
 	"upload_source_maps": true,
-	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare"
-	}
+	"ai": {
+		"binding": "AI"
+	},
+	"vectorize": [
+		{
+			"binding": "EMBEDDING_BGE_SMALL",
+			"index_name": "embedding-bge-small"
+		},
+		{
+			"binding": "EMBEDDING_BGE_BASE",
+			"index_name": "embedding-bge-base"
+		},
+		{
+			"binding": "EMBEDDING_BGE_LARGE",
+			"index_name": "embedding-bge-large"
+		}
+	]
 }

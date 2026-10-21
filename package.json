@@ -36,7 +36,8 @@
 	"scripts": {
 		"build": "react-router build",
 		"cf-typegen": "wrangler types && react-router typegen",
-		"check": "tsc && react-router build && wrangler deploy --dry-run",
+		"typegen": "wrangler types && react-router typegen",
+		"check": "npm run typegen && tsc -b && react-router build && wrangler deploy --dry-run",
 		"deploy": "wrangler deploy",
 		"dev": "react-router dev",
 		"preview": "npm run build && vite preview",

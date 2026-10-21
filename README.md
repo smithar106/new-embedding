@@ -1,109 +1,117 @@
-# Welcome to React Router + Cloudflare Workers!
+# Embedding Evolution Lab
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/react-router-starter-template)
+An interactive semantic-search laboratory that compares three free embedding models
+of different sizes, running as a full-stack Cloudflare application
+(React Router 7 + Cloudflare Workers + Workers AI + Vectorize).
 
-![React Router Starter Template Preview](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/bfdc2f85-e5c9-4c92-128b-3a6711249800/public)
+| Model | Size | Dimensions |
+| --- | --- | --- |
+| [BGE Small v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) | small | 384 |
+| [BGE Base v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) | base | 768 |
+| [BGE Large v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) | large | 1024 |
 
-<!-- dash-content-start -->
+All three are served by **Cloudflare Workers AI** (keyless, free tier), so no
+inference API token is required.
 
-A modern, production-ready template for building full-stack React applications using [React Router](https://reactrouter.com/) and the [Cloudflare Vite plugin](https://developers.cloudflare.com/workers/vite-plugin/).
+## Status
 
-## Features
+- **Stage 1 (foundation) — complete.** Frontend dashboard, JSON API routes,
+  TypeScript interfaces, and the provider-adapter architecture.
+- **Stage 2 (embedding inference) — complete.** Workers AI embedding verified for
+  all three models (dimensions 384/768/1024 confirmed against live responses).
+- **Stage 3 (vector retrieval) — indexes created.** Three Vectorize indexes
+  (`embedding-bge-small`, `embedding-bge-base`, `embedding-bge-large`) are bound in
+  `wrangler.json`.
+- **Stage 4 (PDF ingestion) — corpus prepared, ingestion pending.** Ten verified
+  5–10 page arXiv PDFs are prepared under `data/`; the ingestion pipeline and D1
+  storage are the next step.
+- **Stage 5 (evaluation) — pending.**
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-- 🔎 Built-in Observability to monitor your Worker
-<!-- dash-content-end -->
+## Architecture
 
-## Getting Started
+- **Frontend:** React Router 7 (SSR + client hydration), React 19, Tailwind CSS.
+- **Backend:** Cloudflare Workers, with the React Router request handler at
+  `workers/app.ts` dispatching both pages and JSON resource routes.
+- **Inference:** Cloudflare Workers AI via the `AI` binding, behind a
+  provider-adapter interface under `app/server/providers/`.
+- **Vectors:** three independent Cloudflare Vectorize indexes, one per model.
+- **Storage:** Vectorize metadata stores per-chunk provenance (`chunkId`,
+  `documentId`, `documentTitle`, `sourceUrl`, `pageNumber`). Full chunk text is kept
+  in a separate store (D1) rather than Vectorize metadata, because Vectorize metadata
+  is size-limited and unsuitable for full passage text; this is wired up in Stage 4.
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
-
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/react-router-starter-template
+```
+app/
+  routes.ts                 route table (page + API resource routes)
+  routes/home.tsx           dashboard page (SSR)
+  routes/api.*.ts           JSON API endpoints
+  components/               client dashboard components
+  server/                   server-only modules
+    models.server.ts        model registry
+    providers/              embedding provider adapters (Workers AI)
+    search.server.ts        per-model search orchestration
+  types.ts                  shared types
+workers/app.ts              Worker entry point
+scripts/                    corpus + index setup scripts
+data/                       corpus PDFs, text, manifest, report
 ```
 
-A live public deployment of this template is available at [https://react-router-starter-template.templates.workers.dev](https://react-router-starter-template.templates.workers.dev)
+## API endpoints
 
-### Installation
+All endpoints return JSON, including errors. Unknown API routes return a JSON 404.
 
-Install the dependencies:
+- `GET  /api/health` — application status and non-sensitive configuration diagnostics.
+- `GET  /api/models` — model metadata, availability, dimensions, size.
+- `GET  /api/documents` — ingested document metadata.
+- `POST /api/search` — `{ "query": "...", "topK": 5 }`; per-model results, timings, and errors.
+- `GET  /api/ingestion/status` — corpus and indexing status (no credentials).
+
+## Local development
+
+Workers AI is keyless, but Vectorize and D1 require the resources to exist and a
+Cloudflare login.
 
 ```bash
 npm install
+npx wrangler login
+./scripts/create-vectorize-indexes.sh
+npm run dev                      # http://localhost:5173
 ```
 
-### Development
+Note: Vectorize bindings only work against Cloudflare's edge, so full retrieval is
+tested against a deployed Worker (`npm run deploy`) rather than the local dev server.
 
-Start the development server with HMR:
+## Type generation, checks, and build
 
 ```bash
-npm run dev
+npm run typegen     # regenerate worker-configuration.d.ts + route types
+npm run typecheck   # typegen + tsc -b
+npm run build       # production build
+npm run check       # full check incl. `wrangler deploy --dry-run` (requires login)
 ```
 
-Your application will be available at `http://localhost:5173`.
+## Required configuration
 
-## Typegen
+### 1. Vectorize indexes
 
-Generate types for your Cloudflare bindings in `wrangler.json`:
-
-```sh
-npm run typegen
-```
-
-## Building for Production
-
-Create a production build:
+Create the three indexes (matches the bindings in `wrangler.json`):
 
 ```bash
-npm run build
+./scripts/create-vectorize-indexes.sh
 ```
 
-## Previewing the Production Build
-
-Preview the production build locally:
+### 2. Deploy
 
 ```bash
-npm run preview
-```
-
-## Deployment
-
-If you don't have a Cloudflare account, [create one here](https://dash.cloudflare.com/sign-up)! Go to your [Workers dashboard](https://dash.cloudflare.com/?to=%2F%3Aaccount%2Fworkers-and-pages) to see your [free custom Cloudflare Workers subdomain](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/) on `*.workers.dev`.
-
-Once that's done, you can build your app:
-
-```sh
-npm run build
-```
-
-And deploy it:
-
-```sh
+npx wrangler login
 npm run deploy
 ```
 
-To deploy a preview URL:
+## Notes on the comparison
 
-```sh
-npx wrangler versions upload
-```
-
-You can then promote a version to production after verification or roll it out progressively.
-
-```sh
-npx wrangler versions deploy
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+Similarity scores are comparable within a single model's vector space, not directly
+across models. Model size alone does not determine retrieval quality: training data,
+the inference provider, index configuration, and query/document formatting all
+differ, so a larger model is not guaranteed to outperform a smaller one on every
+corpus. Measured results are kept distinct from illustrative examples; no mock data
+is presented as real retrieval output.

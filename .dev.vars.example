@@ -1,0 +1,3 @@
+# Copy to .dev.vars for local development. Never commit .dev.vars.
+# Embedding Evolution Lab uses Cloudflare Workers AI, which is keyless — no
+# secrets are required. Add any future secrets here, one per line.

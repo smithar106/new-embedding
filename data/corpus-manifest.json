@@ -1,0 +1,227 @@
+{
+  "generated_at": "2026-10-21T23:10:00.825352+00:00",
+  "target_count": 10,
+  "page_range": [
+    5,
+    10
+  ],
+  "accepted_count": 10,
+  "corpus": [
+    {
+      "id": "2507.08011",
+      "title": "Energy Management for Renewable-Colocated Artificial Intelligence Data Centers",
+      "authors": [
+        "Siying Li",
+        "Lang Tong",
+        "Timothy D. Mount"
+      ],
+      "year": 2025,
+      "source_url": "https://arxiv.org/abs/2507.08011",
+      "pdf_url": "https://arxiv.org/pdf/2507.08011",
+      "local_path": "data/pdfs/2507.08011.pdf",
+      "text_path": "data/text/2507.08011.txt",
+      "page_count": 6,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "1804.01754",
+      "title": "On the Energy Consumption Forecasting of Data Centers Based on Weather Conditions: Remote Sensing and Machine Learning Approach",
+      "authors": [
+        "Georgios Smpokos",
+        "Mohamed A. Elshatshat",
+        "Athanasios Lioumpas",
+        "Ilias Iliopoulos"
+      ],
+      "year": 2018,
+      "source_url": "https://arxiv.org/abs/1804.01754",
+      "pdf_url": "https://arxiv.org/pdf/1804.01754",
+      "local_path": "data/pdfs/1804.01754.pdf",
+      "text_path": "data/text/1804.01754.txt",
+      "page_count": 6,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "1509.05875",
+      "title": "CloudSimNFV: Modeling and Simulation of Energy-Efficient NFV in Cloud Data Centers",
+      "authors": [
+        "Wutong Yang",
+        "Minxian Xu",
+        "Guozhong Li",
+        "Wenhong Tian"
+      ],
+      "year": 2015,
+      "source_url": "https://arxiv.org/abs/1509.05875",
+      "pdf_url": "https://arxiv.org/pdf/1509.05875",
+      "local_path": "data/pdfs/1509.05875.pdf",
+      "text_path": "data/text/1509.05875.txt",
+      "page_count": 8,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "1911.03730",
+      "title": "Forecasting the effect of heat stress index and climate change on cloud data center energy consumption",
+      "authors": [
+        "Vikas Ramachandra"
+      ],
+      "year": 2019,
+      "source_url": "https://arxiv.org/abs/1911.03730",
+      "pdf_url": "https://arxiv.org/pdf/1911.03730",
+      "local_path": "data/pdfs/1911.03730.pdf",
+      "text_path": "data/text/1911.03730.txt",
+      "page_count": 5,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "2603.10498",
+      "title": "Efficiency vs Demand in AI Electricity: Implications for Post-AGI Scaling",
+      "authors": [
+        "Doyi Kim",
+        "Jiseok Ahn",
+        "Haewon McJeon",
+        "Changick Kim"
+      ],
+      "year": 2026,
+      "source_url": "https://arxiv.org/abs/2603.10498",
+      "pdf_url": "https://arxiv.org/pdf/2603.10498",
+      "local_path": "data/pdfs/2603.10498.pdf",
+      "text_path": "data/text/2603.10498.txt",
+      "page_count": 8,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "2508.03160",
+      "title": "Electricity Price-Aware Scheduling of Data Center Cooling",
+      "authors": [
+        "Arash Khojaste",
+        "Jonathan Pearce",
+        "Golbon Zakeri",
+        "Yuanrui Sang"
+      ],
+      "year": 2025,
+      "source_url": "https://arxiv.org/abs/2508.03160",
+      "pdf_url": "https://arxiv.org/pdf/2508.03160",
+      "local_path": "data/pdfs/2508.03160.pdf",
+      "text_path": "data/text/2508.03160.txt",
+      "page_count": 6,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "1910.09700",
+      "title": "Quantifying the Carbon Emissions of Machine Learning",
+      "authors": [
+        "Alexandre Lacoste",
+        "Alexandra Luccioni",
+        "Victor Schmidt",
+        "Thomas Dandres"
+      ],
+      "year": 2019,
+      "source_url": "https://arxiv.org/abs/1910.09700",
+      "pdf_url": "https://arxiv.org/pdf/1910.09700",
+      "local_path": "data/pdfs/1910.09700.pdf",
+      "text_path": "data/text/1910.09700.txt",
+      "page_count": 8,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "2602.16042",
+      "title": "AI-CARE: Carbon-Aware Reporting Evaluation Metric for AI Models",
+      "authors": [
+        "KC Santosh",
+        "Srikanth Baride",
+        "Rodrigue Rizk"
+      ],
+      "year": 2026,
+      "source_url": "https://arxiv.org/abs/2602.16042",
+      "pdf_url": "https://arxiv.org/pdf/2602.16042",
+      "local_path": "data/pdfs/2602.16042.pdf",
+      "text_path": "data/text/2602.16042.txt",
+      "page_count": 7,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "2403.12698",
+      "title": "System Support for Environmentally Sustainable Computing in Data Centers",
+      "authors": [
+        "Fan Chen"
+      ],
+      "year": 2024,
+      "source_url": "https://arxiv.org/abs/2403.12698",
+      "pdf_url": "https://arxiv.org/pdf/2403.12698",
+      "local_path": "data/pdfs/2403.12698.pdf",
+      "text_path": "data/text/2403.12698.txt",
+      "page_count": 6,
+      "extraction_status": "ok"
+    },
+    {
+      "id": "2207.08146",
+      "title": "Mapping Disruption Sources in the Power Grid and Implications for Resilience",
+      "authors": [
+        "Maureen S. Golan",
+        "Javad Mohammadi"
+      ],
+      "year": 2022,
+      "source_url": "https://arxiv.org/abs/2207.08146",
+      "pdf_url": "https://arxiv.org/pdf/2207.08146",
+      "local_path": "data/pdfs/2207.08146.pdf",
+      "text_path": "data/text/2207.08146.txt",
+      "page_count": 6,
+      "extraction_status": "ok"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "2509.07218",
+      "url": "https://arxiv.org/pdf/2509.07218",
+      "page_count": 28,
+      "reason": "page_count_out_of_range (28 pages)"
+    },
+    {
+      "id": "2501.15085",
+      "url": "https://arxiv.org/pdf/2501.15085",
+      "page_count": 23,
+      "reason": "page_count_out_of_range (23 pages)"
+    },
+    {
+      "id": "2507.11417",
+      "url": "https://arxiv.org/pdf/2507.11417",
+      "page_count": 12,
+      "reason": "page_count_out_of_range (12 pages)"
+    },
+    {
+      "id": "2511.05597",
+      "url": "https://arxiv.org/pdf/2511.05597",
+      "page_count": 17,
+      "reason": "page_count_out_of_range (17 pages)"
+    },
+    {
+      "id": "2608.08170",
+      "url": "https://arxiv.org/pdf/2608.08170",
+      "page_count": 23,
+      "reason": "page_count_out_of_range (23 pages)"
+    },
+    {
+      "id": "2606.05420",
+      "url": "https://arxiv.org/pdf/2606.05420",
+      "page_count": 63,
+      "reason": "page_count_out_of_range (63 pages)"
+    },
+    {
+      "id": "2605.14714",
+      "url": "https://arxiv.org/pdf/2605.14714",
+      "page_count": 33,
+      "reason": "page_count_out_of_range (33 pages)"
+    },
+    {
+      "id": "2608.18503",
+      "url": "https://arxiv.org/pdf/2608.18503",
+      "page_count": 24,
+      "reason": "page_count_out_of_range (24 pages)"
+    },
+    {
+      "id": "2505.09598",
+      "url": "https://arxiv.org/pdf/2505.09598",
+      "page_count": 20,
+      "reason": "page_count_out_of_range (20 pages)"
+    }
+  ]
+}
