@@ -86,6 +86,11 @@ export async function searchAllModels(
 				},
 			);
 
+			const texts = await fetchChunkTexts(env, results.map((r) => r.chunkId));
+			for (const result of results) {
+				result.text = texts.get(result.chunkId) ?? "";
+			}
+
 			timings.totalMs = Date.now() - totalStart;
 			models.push({
 				modelId: model.id,
@@ -115,4 +120,33 @@ export async function searchAllModels(
 		searchedAt: new Date().toISOString(),
 		models,
 	};
+}
+
+async function fetchChunkTexts(
+	env: Env,
+	chunkIds: string[],
+): Promise<Map<string, string>> {
+	const map = new Map<string, string>();
+	const unique = [...new Set(chunkIds.filter((id) => id.length > 0))];
+	if (unique.length === 0) {
+		return map;
+	}
+
+	const statements = unique.map((id) =>
+		env.EMBEDDING_DB.prepare("SELECT id, text FROM chunks WHERE id = ?").bind(id),
+	);
+
+	try {
+		const rows = await env.EMBEDDING_DB.batch(statements);
+		for (const result of rows) {
+			const row = result.results?.[0] as { id?: string; text?: string } | undefined;
+			if (row?.id && typeof row.text === "string") {
+				map.set(row.id, row.text);
+			}
+		}
+	} catch {
+		// Text lookup is best-effort; provenance still comes from Vectorize metadata.
+	}
+
+	return map;
 }

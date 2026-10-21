@@ -19,12 +19,13 @@ inference API token is required.
   TypeScript interfaces, and the provider-adapter architecture.
 - **Stage 2 (embedding inference) — complete.** Workers AI embedding verified for
   all three models (dimensions 384/768/1024 confirmed against live responses).
-- **Stage 3 (vector retrieval) — indexes created.** Three Vectorize indexes
+- **Stage 3 (vector retrieval) — complete.** Three Vectorize indexes
   (`embedding-bge-small`, `embedding-bge-base`, `embedding-bge-large`) are bound in
-  `wrangler.json`.
-- **Stage 4 (PDF ingestion) — corpus prepared, ingestion pending.** Ten verified
-  5–10 page arXiv PDFs are prepared under `data/`; the ingestion pipeline and D1
-  storage are the next step.
+  `wrangler.json` and queried per model with source metadata.
+- **Stage 4 (PDF ingestion) — complete.** Ten verified 5–10 page arXiv PDFs are
+  ingested (700 chunks) through a protected `POST /api/ingestion/run` endpoint that
+  chunks reproducibly, embeds with all three models, upserts to Vectorize, and stores
+  full text + metadata in D1.
 - **Stage 5 (evaluation) — pending.**
 
 ## Architecture

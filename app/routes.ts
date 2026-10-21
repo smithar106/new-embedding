@@ -7,5 +7,6 @@ export default [
 	route("api/documents", "routes/api.documents.ts"),
 	route("api/search", "routes/api.search.ts"),
 	route("api/ingestion/status", "routes/api.ingestion.status.ts"),
+	route("api/ingestion/run", "routes/api.ingestion.run.ts"),
 	route("api/*", "routes/api.$.ts"),
 ] satisfies RouteConfig;

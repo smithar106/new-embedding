@@ -1,3 +1,5 @@
 # Copy to .dev.vars for local development. Never commit .dev.vars.
 # Embedding Evolution Lab uses Cloudflare Workers AI, which is keyless — no
-# secrets are required. Add any future secrets here, one per line.
+# inference token is required. The only secret is the shared ingestion secret
+# used to protect the /api/ingestion/run endpoint (set with `wrangler secret put`).
+INGESTION_SECRET=""

@@ -11,6 +11,14 @@
 	"ai": {
 		"binding": "AI"
 	},
+	"d1_databases": [
+		{
+			"binding": "EMBEDDING_DB",
+			"database_name": "embedding-evolution-db",
+			"database_id": "00e28861-4970-4f97-9f13-b29ef2d09cb0",
+			"migrations_dir": "migrations"
+		}
+	],
 	"vectorize": [
 		{
 			"binding": "EMBEDDING_BGE_SMALL",

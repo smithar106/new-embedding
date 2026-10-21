@@ -10,6 +10,7 @@ export interface EmbeddingProvider {
 	readonly name: string;
 	embedQuery(query: string): Promise<EmbeddingResult>;
 	embedDocument(text: string): Promise<EmbeddingResult>;
+	embedDocuments(texts: string[]): Promise<EmbeddingResult[]>;
 }
 
 export class ProviderUnavailableError extends Error {
