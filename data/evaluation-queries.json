@@ -1,0 +1,55 @@
+{
+	"description": "Manually labeled evaluation set for Embedding Evolution Lab. Relevance is labeled at the document level (relevantDocumentIds). These labels were authored by hand against the 10-document corpus and must not be presented as measured results.",
+	"queries": [
+		{
+			"id": "eval-carbon-reduction",
+			"query": "How can data centers reduce their carbon emissions?",
+			"relevantDocumentIds": ["2403.12698", "1910.09700", "2602.16042"]
+		},
+		{
+			"id": "eval-ai-electricity-demand",
+			"query": "What is the relationship between AI and electricity demand?",
+			"relevantDocumentIds": ["2603.10498", "2507.08011"]
+		},
+		{
+			"id": "eval-data-center-cooling",
+			"query": "How do data centers manage cooling efficiently?",
+			"relevantDocumentIds": ["2508.03160", "1911.03730", "1509.05875"]
+		},
+		{
+			"id": "eval-ml-carbon-footprint",
+			"query": "What is the carbon footprint of training machine learning models?",
+			"relevantDocumentIds": ["1910.09700", "2602.16042"]
+		},
+		{
+			"id": "eval-renewable-data-centers",
+			"query": "How can renewable energy power data centers?",
+			"relevantDocumentIds": ["2507.08011", "2403.12698"]
+		},
+		{
+			"id": "eval-weather-climate-energy",
+			"query": "How do weather and climate affect data center energy use?",
+			"relevantDocumentIds": ["1804.01754", "1911.03730"]
+		},
+		{
+			"id": "eval-sustainable-computing",
+			"query": "How can we make computing infrastructure more sustainable?",
+			"relevantDocumentIds": ["2403.12698", "1509.05875"]
+		},
+		{
+			"id": "eval-grid-reliability",
+			"query": "What threatens the reliability of the power grid?",
+			"relevantDocumentIds": ["2207.08146"]
+		},
+		{
+			"id": "eval-electricity-pricing",
+			"query": "How does electricity pricing affect data center operations?",
+			"relevantDocumentIds": ["2508.03160"]
+		},
+		{
+			"id": "eval-future-ai-energy",
+			"query": "How much energy will future AI systems consume?",
+			"relevantDocumentIds": ["2603.10498", "1910.09700"]
+		}
+	]
+}

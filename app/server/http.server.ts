@@ -1,15 +1,12 @@
-import { data } from "react-router";
 import type { ApiError } from "~/types";
 
 export function jsonError(
 	status: number,
 	error: string,
 	message: string,
-): ReturnType<typeof data> {
-	return data<ApiError>(
-		{ error, message, status },
-		{ status },
-	);
+): Response {
+	const body: ApiError = { error, message, status };
+	return Response.json(body, { status });
 }
 
 export interface ValidatedSearchInput {
@@ -19,10 +16,13 @@ export interface ValidatedSearchInput {
 
 export const MAX_QUERY_LENGTH = 500;
 export const DEFAULT_TOP_K = 5;
+export const MAX_TOP_K = 10;
 
 export function validateSearchInput(
 	body: unknown,
-): { ok: true; value: ValidatedSearchInput } | { ok: false; response: ReturnType<typeof data> } {
+):
+	| { ok: true; value: ValidatedSearchInput }
+	| { ok: false; response: Response } {
 	if (typeof body !== "object" || body === null) {
 		return {
 			ok: false,
@@ -65,14 +65,14 @@ export function validateSearchInput(
 			typeof topK !== "number" ||
 			!Number.isInteger(topK) ||
 			topK < 1 ||
-			topK > 10
+			topK > MAX_TOP_K
 		) {
 			return {
 				ok: false,
 				response: jsonError(
 					400,
 					"invalid_top_k",
-					"topK must be an integer between 1 and 10",
+					`topK must be an integer between 1 and ${MAX_TOP_K}`,
 				),
 			};
 		}

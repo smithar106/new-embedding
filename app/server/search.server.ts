@@ -15,6 +15,36 @@ interface VectorMetadata {
 	pageNumber?: number | string;
 }
 
+export interface RawMatch {
+	id?: string;
+	score?: number;
+	metadata?: unknown;
+}
+
+export function formatMatchResult(match: RawMatch): SearchResultItem {
+	const meta = (match.metadata ?? {}) as unknown as VectorMetadata;
+	return {
+		chunkId: String(meta.chunkId ?? match.id ?? ""),
+		documentId: String(meta.documentId ?? ""),
+		documentTitle: String(meta.documentTitle ?? "Unknown document"),
+		sourceUrl: String(meta.sourceUrl ?? ""),
+		pageNumber: Number(meta.pageNumber ?? 0),
+		text: "",
+		score: match.score ?? 0,
+	};
+}
+
+const MODEL_TIMEOUT_MS = 15_000;
+
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+	return Promise.race([
+		promise,
+		new Promise<never>((_, reject) => {
+			setTimeout(() => reject(new Error(`timed out after ${ms}ms`)), ms);
+		}),
+	]);
+}
+
 export async function searchAllModels(
 	env: Env,
 	query: string,
@@ -60,30 +90,25 @@ export async function searchAllModels(
 			const provider = getProvider(model.id, env);
 
 			const embedStart = Date.now();
-			const { vector } = await provider.embedQuery(query);
+			const { vector } = await withTimeout(
+				provider.embedQuery(query),
+				MODEL_TIMEOUT_MS,
+			);
 			timings.embeddingMs = Date.now() - embedStart;
 
 			const searchStart = Date.now();
-			const matches = await index.query(vector, {
-				topK,
-				returnValues: false,
-				returnMetadata: true,
-			});
+			const matches = await withTimeout(
+				index.query(vector, {
+					topK,
+					returnValues: false,
+					returnMetadata: true,
+				}),
+				MODEL_TIMEOUT_MS,
+			);
 			timings.searchMs = Date.now() - searchStart;
 
 			const results: SearchResultItem[] = (matches.matches ?? []).map(
-				(match) => {
-					const meta = (match.metadata ?? {}) as unknown as VectorMetadata;
-					return {
-						chunkId: String(meta.chunkId ?? match.id ?? ""),
-						documentId: String(meta.documentId ?? ""),
-						documentTitle: String(meta.documentTitle ?? "Unknown document"),
-						sourceUrl: String(meta.sourceUrl ?? ""),
-						pageNumber: Number(meta.pageNumber ?? 0),
-						text: "",
-						score: match.score ?? 0,
-					};
-				},
+				formatMatchResult,
 			);
 
 			const texts = await fetchChunkTexts(env, results.map((r) => r.chunkId));

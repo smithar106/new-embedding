@@ -26,7 +26,9 @@ inference API token is required.
   ingested (700 chunks) through a protected `POST /api/ingestion/run` endpoint that
   chunks reproducibly, embeds with all three models, upserts to Vectorize, and stores
   full text + metadata in D1.
-- **Stage 5 (evaluation) — pending.**
+- **Stage 5 (evaluation) — complete.** Labeled evaluation set, retrieval metrics
+  (Recall@5, MRR, median latency, error rate), per-model timeouts, and a unit test
+  suite.
 
 ## Architecture
 
@@ -88,8 +90,40 @@ tested against a deployed Worker (`npm run deploy`) rather than the local dev se
 npm run typegen     # regenerate worker-configuration.d.ts + route types
 npm run typecheck   # typegen + tsc -b
 npm run build       # production build
+npm test            # run the unit test suite (vitest)
 npm run check       # full check incl. `wrangler deploy --dry-run` (requires login)
 ```
+
+## Evaluation
+
+A manually labeled evaluation set lives in `data/evaluation-queries.json`. Run the
+retrieval evaluation against the deployed Worker:
+
+```bash
+python3 scripts/evaluate.py --url https://new-embedding.smithar106.workers.dev
+```
+
+This writes `data/evaluation-results.json` and `data/evaluation-report.md` with
+measured Recall@5, MRR, median latency, and error rate per model. Relevance labels
+are manual and kept distinct from measured numbers.
+
+## Security & reliability
+
+- **Secrets:** the only secret is `INGESTION_SECRET` (set via `wrangler secret put`),
+  used to protect `POST /api/ingestion/run`. No inference token is required.
+- **Input validation:** query length is capped (500 chars) and `topK` is bounded
+  (1–10); invalid requests return a structured JSON 400.
+- **Per-model timeouts:** each model's embed + search is bounded by a 15s timeout so
+  one slow/failing model cannot block the comparison.
+- **Independent failure handling:** each model is embedded and queried independently;
+  failures surface as a per-model `error`/`unavailable` status.
+- **CORS:** the API is same-origin with the dashboard and sets no permissive CORS
+  headers, so browsers block cross-origin reads by default.
+- **Rate limiting:** the ingestion endpoint is unauthenticated-inaccessible (secret),
+  and Workers AI itself enforces a free-tier rate limit. For a public deployment,
+  add a Cloudflare rate-limiting rule or Turnstile on `/api/search`; the search path
+  is otherwise read-only and bounded.
+- **Logging:** Cloudflare observability is enabled; no secrets are logged.
 
 ## Required configuration
 
